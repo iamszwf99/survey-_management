@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Survey Configuration</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #f8f9fa;
+            color: #1f2937;
+        }
+        
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+        
+        .sidebar {
+            width: 280px;
+            background: white;
+            border-right: 1px solid #e5e7eb;
+            padding: 24px 0;
+        }
+        
+        .sidebar-header {
+            padding: 0 24px 24px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        
+        .event-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        
+        .event-date {
+            font-size: 14px;
+            color: #6b7280;
+        }
+        
+        .nav-section {
+            margin-top: 24px;
+        }
+        
+        .nav-section-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #374151;
+            padding: 0 24px 12px;
+        }
+        
+        .nav-item {
+            display: flex;
+            align-items: center;
+            padding: 8px 24px;
+            color: #6b7280;
+            text-decoration: none;
+            font-size: 14px;
+            border-left: 3px solid transparent;
+        }
+        
+        .nav-item:hover {
+            background-color: #f3f4f6;
+            color: #374151;
+        }
+        
+        .nav-item.active {
+            background-color: #e0e7ff;
+            color: #3730a3;
+            border-left-color: #4f46e5;
+        }
+        
+        .nav-item .icon {
+            width: 16px;
+            height: 16px;
+            margin-right: 12px;
+            opacity: 0.7;
+        }
+        
+        .main-content {
+            flex: 1;
+            padding: 24px 32px;
+        }
+        
+        .header {
+            display: flex;
+            justify-content: between;
+            align-items: center;
+            margin-bottom: 32px;
+        }
+        
+        .breadcrumb {
+            color: #6b7280;
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+        
+        .page-title {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        
+        .page-description {
+            color: #6b7280;
+            font-size: 14px;
+            margin-bottom: 32px;
+        }
+        
+        .config-section {
+            background: white;
+            border-radius: 8px;
+            border: 1px solid #e5e7eb;
+            margin-bottom: 24px;
+        }
+        
+        .section-header {
+            padding: 24px;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        
+        .section-description {
+            color: #6b7280;
+            font-size: 14px;
+        }
+        
+        .section-header-content {
+            flex: 1;
+        }
+        
+        .section-controls {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .action-button {
+            padding: 6px 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            background: white;
+            color: #374151;
+            font-size: 12px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        
+        .action-button:hover {
+            background-color: #f9fafb;
+        }
+        
+        .action-button.delete {
+            color: #dc2626;
+            border-color: #fecaca;
+        }
+        
+        .action-button.delete:hover {
+            background-color: #fef2f2;
+        }
+        
+        .section-content {
+            padding: 24px;
+        }
+        
+        .form-group {
+            margin-bottom: 24px;
+        }
+        
+        .form-label {
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: #374151;
+        }
+        
+        .form-description {
+            color: #6b7280;
+            font-size: 12px;
+            margin-bottom: 12px;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+        
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 44px;
+            height: 24px;
+        }
+        
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #d1d5db;
+            transition: .4s;
+            border-radius: 24px;
+        }
+        
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        
+        input:checked + .slider {
+            background-color: #4f46e5;
+        }
+        
+        input:checked + .slider:before {
+            transform: translateX(20px);
+        }
+        
+        .radio-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .radio-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+        }
+        
+        .radio-item input[type="radio"] {
+            margin-top: 2px;
+        }
+        
+        .radio-label {
+            font-size: 14px;
+            color: #374151;
+        }
+        
+        .radio-description {
+            color: #6b7280;
+            font-size: 12px;
+        }
+        
+        .checkbox-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .select-group {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+        
+        .select-group select {
+            padding: 6px 32px 6px 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 14px;
+            background: white;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 4px 8px;
+            background-color: #e0e7ff;
+            color: #3730a3;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        
+        .preview-button {
+            background: none;
+            border: 1px solid #d1d5db;
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #374151;
+            font-size: 14px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .preview-button:hover {
+            background-color: #f9fafb;
+        }
+        
+        .publish-button {
+            background-color: #4f46e5;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            position: fixed;
+            top: 24px;
+            right: 32px;
+        }
+        
+        .publish-button:hover {
+            background-color: #4338ca;
+        }
+        
+        .divider {
+            height: 1px;
+            background-color: #e5e7eb;
+            margin: 24px 0;
+        }
+        
+        .row {
+            display: flex;
+            gap: 24px;
+        }
+        
+        .col {
+            flex: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <!-- Blank space for event info -->
+            </div>
+            
+            <div class="nav-section">
+                <div class="nav-section-title">Event experience</div>
+                <a href="#" class="nav-item">
+                    <span class="icon">🏢</span>
+                    Lobby
+                </a>
+                <a href="#" class="nav-item active">
+                    <span class="icon">📊</span>
+                    Surveys
+                </a>
+            </div>
+        </div>
+        
+        <div class="main-content">
+            <div class="header">
+                <div>
+                    <div class="breadcrumb">← Go to my events</div>
+                    <h1 class="page-title">Survey Configuration</h1>
+                    <p class="page-description">Set up event and session surveys to collect feedback from your attendees</p>
+                </div>
+            </div>
+            
+            <!-- Event Survey Section -->
+            <div class="config-section">
+                <div class="section-header">
+                    <div class="section-header-content">
+                        <div class="section-title">Event survey</div>
+                        <div class="section-description">Configure surveys for the entire event experience</div>
+                    </div>
+                    <div class="section-controls">
+                        <div class="action-buttons">
+                            <button class="action-button">Edit</button>
+                            <button class="action-button">Preview</button>
+                            <button class="action-button delete">Delete</button>
+                        </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                </div>
+                <div class="section-content">
+                    <div class="form-group">
+                        <label class="form-label">Survey Audience</label>
+                        <div class="form-description">Choose who will receive the survey invitation</div>
+                        <div class="radio-group">
+                            <div class="radio-item">
+                                <input type="radio" name="event-audience" id="all-attendees" checked>
+                                <div>
+                                    <label for="all-attendees" class="radio-label">All event attendees</label>
+                                    <div class="radio-description">Anyone who registered for the event</div>
+                                </div>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" name="event-audience" id="active-attendees">
+                                <div>
+                                    <label for="active-attendees" class="radio-label">Active participants only</label>
+                                    <div class="radio-description">Only attendees who joined at least one session</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Survey Timing & Invitation</label>
+                        <div class="form-description">When and how should the survey invitation appear?</div>
+                        
+                        <div style="margin-bottom: 16px;">
+                            <div class="radio-group">
+                                <div class="radio-item">
+                                    <input type="radio" name="event-timing" id="event-end" checked>
+                                    <div>
+                                        <label for="event-end" class="radio-label">At event end</label>
+                                        <div class="radio-description">Automatically opens when the event concludes</div>
+                                    </div>
+                                </div>
+                                <div class="radio-item">
+                                    <input type="radio" name="event-timing" id="custom-time">
+                                    <div>
+                                        <label for="custom-time" class="radio-label">Custom date & time</label>
+                                        <div class="radio-description">Set a specific time to send the survey</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row" style="margin-bottom: 16px;">
+                            <div class="col">
+                                <label class="form-label">Invitation Method</label>
+                                <div class="radio-group">
+                                    <div class="radio-item">
+                                        <input type="radio" name="event-invitation-method" id="event-popup-only" checked>
+                                        <label for="event-popup-only" class="radio-label">Popup notification only</label>
+                                    </div>
+                                    <div class="radio-item">
+                                        <input type="radio" name="event-invitation-method" id="event-popup-sound">
+                                        <label for="event-popup-sound" class="radio-label">Popup + notification sound</label>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col">
+                                <label class="form-label">Popup Position</label>
+                                <div class="radio-group">
+                                    <div class="radio-item">
+                                        <input type="radio" name="event-popup-position" id="event-top-right" checked>
+                                        <label for="event-top-right" class="radio-label">Top right</label>
+                                    </div>
+                                    <div class="radio-item">
+                                        <input type="radio" name="event-popup-position" id="event-top-left">
+                                        <label for="event-top-left" class="radio-label">Top left</label>
+                                    </div>
+                                    <div class="radio-item">
+                                        <input type="radio" name="event-popup-position" id="event-bottom-right">
+                                        <label for="event-bottom-right" class="radio-label">Bottom right</label>
+                                    </div>
+                                    <div class="radio-item">
+                                        <input type="radio" name="event-popup-position" id="event-bottom-left">
+                                        <label for="event-bottom-left" class="radio-label">Bottom left</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <div class="checkbox-item" style="margin-bottom: 12px;">
+                                <input type="checkbox" id="event-nudge-response" checked>
+                                <label for="event-nudge-response" class="radio-label">Nudge non-responders</label>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <div class="select-group">
+                                        <span>First reminder after</span>
+                                        <select>
+                                            <option>1 hour</option>
+                                            <option>2 hours</option>
+                                            <option>4 hours</option>
+                                            <option selected>24 hours</option>
+                                            <option>48 hours</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="select-group">
+                                        <span>Final reminder after</span>
+                                        <select>
+                                            <option>2 days</option>
+                                            <option>3 days</option>
+                                            <option selected>7 days</option>
+                                            <option>14 days</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Session Survey Section -->
+            <div class="config-section">
+                <div class="section-header">
+                    <div class="section-header-content">
+                        <div class="section-title">Session survey</div>
+                        <div class="section-description">Configure surveys for individual sessions</div>
+                    </div>
+                    <div class="section-controls">
+                        <div class="action-buttons">
+                            <button class="action-button">Edit</button>
+                            <button class="action-button">Preview</button>
+                            <button class="action-button delete">Delete</button>
+                        </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                </div>
+                <div class="section-content">
+                    <div class="form-group">
+                        <label class="form-label">Survey Audience</label>
+                        <div class="form-description">Choose who will receive session survey invitations</div>
+                        <div class="checkbox-group">
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="session-attendees" checked>
+                                <label for="session-attendees" class="radio-label">Live session attendees</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="recording-viewers" checked>
+                                <label for="recording-viewers" class="radio-label">Session recording viewers</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Minimum Participation Requirement</label>
+                        <div class="form-description">How long must someone participate to be eligible for the survey?</div>
+                        <div class="select-group">
+                            <select>
+                                <option>1 minute</option>
+                                <option>5 minutes</option>
+                                <option>10 minutes</option>
+                                <option>25% of session</option>
+                                <option selected>50% of session</option>
+                                <option>75% of session</option>
+                                <option>Entire session</option>
+                            </select>
+                            <span class="badge">Recommended: 50%</span>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Survey Timing & Invitation</label>
+                        <div class="form-description">When and how should session surveys appear?</div>
+                        
+                        <div style="margin-bottom: 16px;">
+                            <div class="radio-group">
+                                <div class="radio-item">
+                                    <input type="radio" name="session-timing" id="session-end" checked>
+                                    <div>
+                                        <label for="session-end" class="radio-label">At session end</label>
+                                        <div class="radio-description">Survey opens when the session concludes</div>
+                                    </div>
+                                </div>
+                                <div class="radio-item">
+                                    <input type="radio" name="session-timing" id="delay-time">
+                                    <div>
+                                        <label for="delay-time" class="radio-label">Delayed invitation</label>
+                                        <div class="radio-description">Send survey after a set delay</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row" style="margin-bottom: 16px;">
+                            <div class="col">
+                                <label class="form-label">Invitation Method</label>
+                                <div class="radio-group">
+                                    <div class="radio-item">
+                                        <input type="radio" name="session-invitation-method" id="session-popup-only" checked>
+                                        <label for="session-popup-only" class="radio-label">Popup notification only</label>
+                                    </div>
+                                    <div class="radio-item">
+                                        <input type="radio" name="session-invitation-method" id="session-popup-sound">
+                                        <label for="session-popup-sound" class="radio-label">Popup + notification sound</label>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col">
+                                <label class="form-label">Popup Position</label>
+                                <div class="radio-group">
+                                    <div class="radio-item">
+                                        <input type="radio" name="session-popup-position" id="session-top-right" checked>
+                                        <label for="session-top-right" class="radio-label">Top right</label>
+                                    </div>
+                                    <div class="radio-item">
+                                        <input type="radio" name="session-popup-position" id="session-top-left">
+                                        <label for="session-top-left" class="radio-label">Top left</label>
+                                    </div>
+                                    <div class="radio-item">
+                                        <input type="radio" name="session-popup-position" id="session-bottom-right">
+                                        <label for="session-bottom-right" class="radio-label">Bottom right</label>
+                                    </div>
+                                    <div class="radio-item">
+                                        <input type="radio" name="session-popup-position" id="session-bottom-left">
+                                        <label for="session-bottom-left" class="radio-label">Bottom left</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <div class="checkbox-item" style="margin-bottom: 12px;">
+                                <input type="checkbox" id="session-nudge-response" checked>
+                                <label for="session-nudge-response" class="radio-label">Nudge non-responders</label>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <div class="select-group">
+                                        <span>First reminder after</span>
+                                        <select>
+                                            <option>1 hour</option>
+                                            <option>2 hours</option>
+                                            <option>4 hours</option>
+                                            <option selected>24 hours</option>
+                                            <option>48 hours</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="select-group">
+                                        <span>Final reminder after</span>
+                                        <select>
+                                            <option>2 days</option>
+                                            <option>3 days</option>
+                                            <option selected>7 days</option>
+                                            <option>14 days</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
