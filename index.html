@@ -333,22 +333,193 @@
             background-color: #f9fafb;
         }
         
-        .publish-button {
+        .popover-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: none;
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .popover-overlay.active {
+            display: flex;
+        }
+        
+        .popover {
+            background: white;
+            border-radius: 12px;
+            width: 600px;
+            max-width: 90vw;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        
+        .popover-header {
+            padding: 24px 24px 16px;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .popover-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1f2937;
+        }
+        
+        .close-button {
+            background: none;
+            border: none;
+            font-size: 20px;
+            color: #6b7280;
+            cursor: pointer;
+            padding: 4px;
+            border-radius: 4px;
+        }
+        
+        .close-button:hover {
+            background-color: #f3f4f6;
+            color: #374151;
+        }
+        
+        .popover-content {
+            padding: 24px;
+        }
+        
+        .survey-preview {
+            border: 2px dashed #d1d5db;
+            border-radius: 8px;
+            padding: 24px;
+            background-color: #f9fafb;
+        }
+        
+        .survey-title-input {
+            font-size: 20px;
+            font-weight: 600;
+            color: #1f2937;
+            background: transparent;
+            border: none;
+            width: 100%;
+            margin-bottom: 16px;
+            padding: 8px;
+            border-radius: 4px;
+        }
+        
+        .survey-title-input:focus {
+            outline: 2px solid #4f46e5;
+            background-color: white;
+        }
+        
+        .survey-message-input {
+            font-size: 14px;
+            color: #6b7280;
+            background: transparent;
+            border: none;
+            width: 100%;
+            margin-bottom: 24px;
+            padding: 8px;
+            border-radius: 4px;
+            resize: vertical;
+            min-height: 60px;
+        }
+        
+        .survey-message-input:focus {
+            outline: 2px solid #4f46e5;
+            background-color: white;
+        }
+        
+        .survey-question {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 16px;
+        }
+        
+        .question-input {
+            font-size: 16px;
+            font-weight: 500;
+            color: #1f2937;
+            background: transparent;
+            border: none;
+            width: 100%;
+            margin-bottom: 16px;
+            padding: 8px;
+            border-radius: 4px;
+        }
+        
+        .question-input:focus {
+            outline: 2px solid #4f46e5;
+            background-color: #f9fafb;
+        }
+        
+        .question-options {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .option-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .option-input {
+            flex: 1;
+            padding: 8px 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+        
+        .option-input:focus {
+            outline: 2px solid #4f46e5;
+            border-color: #4f46e5;
+        }
+        
+        .popover-footer {
+            padding: 16px 24px;
+            border-top: 1px solid #e5e7eb;
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+        }
+        
+        .save-button {
             background-color: #4f46e5;
             color: white;
             border: none;
-            padding: 12px 24px;
+            padding: 8px 16px;
             border-radius: 6px;
             font-size: 14px;
             font-weight: 500;
             cursor: pointer;
-            position: fixed;
-            top: 24px;
-            right: 32px;
         }
         
-        .publish-button:hover {
+        .save-button:hover {
             background-color: #4338ca;
+        }
+        
+        .cancel-button {
+            background: none;
+            border: 1px solid #d1d5db;
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #374151;
+            font-size: 14px;
+            cursor: pointer;
+        }
+        
+        .cancel-button:hover {
+            background-color: #f9fafb;
         }
         
         .divider {
@@ -405,7 +576,7 @@
                     </div>
                     <div class="section-controls">
                         <div class="action-buttons">
-                            <button class="action-button">Edit</button>
+                            <button class="action-button" onclick="openEditPopover('event')">Edit</button>
                             <button class="action-button">Preview</button>
                             <button class="action-button delete">Delete</button>
                         </div>
@@ -542,7 +713,7 @@
                     </div>
                     <div class="section-controls">
                         <div class="action-buttons">
-                            <button class="action-button">Edit</button>
+                            <button class="action-button" onclick="openEditPopover('session')">Edit</button>
                             <button class="action-button">Preview</button>
                             <button class="action-button delete">Delete</button>
                         </div>
@@ -682,5 +853,105 @@
             </div>
         </div>
     </div>
+    
+    <!-- Edit Survey Popover -->
+    <div class="popover-overlay" id="editPopover">
+        <div class="popover">
+            <div class="popover-header">
+                <div class="popover-title" id="popoverTitle">Edit Survey</div>
+                <button class="close-button" onclick="closeEditPopover()">×</button>
+            </div>
+            <div class="popover-content">
+                <div class="survey-preview">
+                    <input 
+                        type="text" 
+                        class="survey-title-input" 
+                        id="surveyTitle"
+                        placeholder="Survey Title"
+                        value="Event Feedback Survey"
+                    />
+                    <textarea 
+                        class="survey-message-input" 
+                        id="surveyMessage"
+                        placeholder="Invitation message..."
+                    >Thank you for attending our event! We'd love to hear your feedback to help us improve future events. This survey will take just 2-3 minutes to complete.</textarea>
+                    
+                    <div class="survey-question">
+                        <input 
+                            type="text" 
+                            class="question-input" 
+                            id="sampleQuestion"
+                            placeholder="Question text..."
+                            value="How would you rate your overall experience at this event?"
+                        />
+                        <div class="question-options">
+                            <div class="option-item">
+                                <input type="radio" name="sample" disabled>
+                                <input type="text" class="option-input" value="Excellent" placeholder="Option 1">
+                            </div>
+                            <div class="option-item">
+                                <input type="radio" name="sample" disabled>
+                                <input type="text" class="option-input" value="Good" placeholder="Option 2">
+                            </div>
+                            <div class="option-item">
+                                <input type="radio" name="sample" disabled>
+                                <input type="text" class="option-input" value="Fair" placeholder="Option 3">
+                            </div>
+                            <div class="option-item">
+                                <input type="radio" name="sample" disabled>
+                                <input type="text" class="option-input" value="Poor" placeholder="Option 4">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="popover-footer">
+                <button class="cancel-button" onclick="closeEditPopover()">Cancel</button>
+                <button class="save-button" onclick="saveSurvey()">Save Changes</button>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function openEditPopover(surveyType) {
+            const popover = document.getElementById('editPopover');
+            const title = document.getElementById('popoverTitle');
+            const surveyTitle = document.getElementById('surveyTitle');
+            const surveyMessage = document.getElementById('surveyMessage');
+            const sampleQuestion = document.getElementById('sampleQuestion');
+            
+            if (surveyType === 'event') {
+                title.textContent = 'Edit Event Survey';
+                surveyTitle.value = 'Event Feedback Survey';
+                surveyMessage.value = "Thank you for attending our event! We'd love to hear your feedback to help us improve future events. This survey will take just 2-3 minutes to complete.";
+                sampleQuestion.value = 'How would you rate your overall experience at this event?';
+            } else {
+                title.textContent = 'Edit Session Survey';
+                surveyTitle.value = 'Session Feedback Survey';
+                surveyMessage.value = "Thank you for joining this session! Please take a moment to share your thoughts about the content and presentation. Your feedback helps us deliver better sessions.";
+                sampleQuestion.value = 'How relevant was this session content to your interests?';
+            }
+            
+            popover.classList.add('active');
+        }
+        
+        function closeEditPopover() {
+            const popover = document.getElementById('editPopover');
+            popover.classList.remove('active');
+        }
+        
+        function saveSurvey() {
+            // In a real app, this would save the survey data
+            alert('Survey changes saved!');
+            closeEditPopover();
+        }
+        
+        // Close popover when clicking outside
+        document.getElementById('editPopover').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeEditPopover();
+            }
+        });
+    </script>
 </body>
 </html>
