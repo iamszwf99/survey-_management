@@ -288,7 +288,7 @@
         <div class="form-card">
             <h2 class="section-title">Survey Eligibility</h2>
             <div class="form-group">
-                <label class="form-label">Who should receive this survey?</label>
+                <label class="form-label">Who should receive this survey? (default as actual participants only) </label>
                 <div class="radio-group">
                     <div class="radio-option selected" onclick="selectEligibility(this, 'all')">
                         <input type="radio" name="eligibility" value="all" checked>
@@ -308,7 +308,7 @@
                 
                 <div class="custom-criteria" id="participantsCriteria">
                     <div class="form-group">
-                        <label class="form-label">Participation qualification</label>
+                        <label class="form-label">Participation qualification (this is for multiple session events. ZS does not need it)</label>
                         <div class="radio-group">
                             <div class="radio-option selected" onclick="selectParticipantType(this, 'basic')">
                                 <input type="radio" name="participantType" value="basic" checked>
@@ -367,8 +367,8 @@
                     <div class="radio-option" onclick="selectTiming(this, 'custom')">
                         <input type="radio" name="timing" value="custom">
                         <div class="radio-content">
-                            <div class="radio-title">Custom timing</div>
-                            <div class="radio-description">Set a specific date and time</div>
+                            <div class="radio-title">Custom timing (this allows survey invitation be triggered before the event ends)</div>
+                            <div class="radio-description">Set a specific date and time (must be within schedule session time) </div>
                         </div>
                     </div>
                 </div>
