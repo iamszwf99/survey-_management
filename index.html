@@ -5,604 +5,279 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Event Survey Configuration</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background-color: #f8f9fa;
+            margin: 0;
+            padding: 20px;
             color: #333;
-            line-height: 1.5;
         }
         
         .container {
-            max-width: 800px;
+            max-width: 600px;
             margin: 0 auto;
-            padding: 40px 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            overflow: hidden;
         }
         
         .header {
-            margin-bottom: 40px;
+            padding: 24px;
+            border-bottom: 1px solid #e9ecef;
         }
         
         .header h1 {
-            font-size: 48px;
-            font-weight: 700;
-            margin-bottom: 8px;
+            margin: 0;
+            font-size: 28px;
+            font-weight: 600;
+            color: #333;
         }
         
-        .breadcrumb {
+        .header h2 {
+            margin: 8px 0 0 0;
+            font-size: 18px;
+            font-weight: 500;
             color: #666;
-            font-size: 14px;
-            margin-bottom: 24px;
         }
         
-        .breadcrumb a {
-            color: #666;
-            text-decoration: none;
+        .section {
+            padding: 24px;
+            border-bottom: 1px solid #e9ecef;
         }
         
-        .breadcrumb a:hover {
-            text-decoration: underline;
-        }
-        
-        .form-card {
-            background: white;
-            border-radius: 8px;
-            padding: 32px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-            margin-bottom: 24px;
+        .section:last-child {
+            border-bottom: none;
         }
         
         .section-title {
-            font-size: 24px;
+            font-size: 16px;
             font-weight: 600;
-            margin-bottom: 24px;
+            margin-bottom: 16px;
             color: #333;
         }
         
         .form-group {
-            margin-bottom: 24px;
+            margin-bottom: 16px;
         }
         
-        .form-label {
+        .form-group:last-child {
+            margin-bottom: 0;
+        }
+        
+        label {
             display: block;
+            font-size: 14px;
             font-weight: 500;
-            margin-bottom: 8px;
-            color: #333;
+            margin-bottom: 6px;
+            color: #555;
         }
         
-        .form-input {
+        select, input, textarea {
             width: 100%;
-            padding: 12px 16px;
-            border: 2px solid #e1e5e9;
-            border-radius: 6px;
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
             font-size: 14px;
-            transition: border-color 0.2s;
+            box-sizing: border-box;
         }
         
-        .form-input:focus {
-            outline: none;
-            border-color: #4285f4;
-        }
-        
-        .form-textarea {
-            width: 100%;
-            padding: 12px 16px;
-            border: 2px solid #e1e5e9;
-            border-radius: 6px;
-            font-size: 14px;
-            min-height: 80px;
+        textarea {
             resize: vertical;
-            transition: border-color 0.2s;
-        }
-        
-        .form-textarea:focus {
-            outline: none;
-            border-color: #4285f4;
+            min-height: 80px;
         }
         
         .radio-group {
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 8px;
         }
         
         .radio-option {
             display: flex;
-            align-items: flex-start;
-            gap: 12px;
-            padding: 16px;
-            border: 2px solid #e1e5e9;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        
-        .radio-option:hover {
-            border-color: #c1c7cd;
-        }
-        
-        .radio-option.selected {
-            border-color: #4285f4;
-            background-color: #f8f9ff;
+            align-items: center;
+            gap: 8px;
         }
         
         .radio-option input[type="radio"] {
-            margin: 4px 0 0 0;
+            width: auto;
+            margin: 0;
         }
         
-        .radio-content {
-            flex: 1;
+        .radio-option label {
+            margin: 0;
+            font-weight: normal;
         }
         
-        .radio-title {
+        .default-badge {
+            background: #e3f2fd;
+            color: #1976d2;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 12px;
             font-weight: 500;
-            margin-bottom: 4px;
+            margin-left: 8px;
         }
         
-        .radio-description {
-            font-size: 14px;
-            color: #666;
-        }
-        
-        .custom-criteria {
-            display: none;
-            margin-top: 16px;
-            padding: 16px;
-            background-color: #f8f9fa;
-            border-radius: 6px;
-        }
-        
-        .custom-criteria.visible {
-            display: block;
-        }
-        
-        .criteria-row {
+        .sub-option {
+            margin-left: 24px;
+            margin-top: 8px;
             display: flex;
             align-items: center;
-            gap: 12px;
-            margin-bottom: 12px;
+            gap: 8px;
         }
         
-        .criteria-input {
-            width: 80px;
-            padding: 8px 12px;
-            border: 2px solid #e1e5e9;
-            border-radius: 4px;
-            font-size: 14px;
+        .sub-option input {
+            width: 60px;
         }
         
         .checkbox-group {
             display: flex;
             align-items: center;
             gap: 8px;
-            margin-bottom: 12px;
+            margin-top: 8px;
         }
         
         .checkbox-group input[type="checkbox"] {
-            transform: scale(1.2);
+            width: auto;
+            margin: 0;
         }
         
-        .help-text {
-            font-size: 13px;
-            color: #666;
-            margin-top: 6px;
-        }
-        
-        .nudge-settings {
-            background-color: #f8f9fa;
-            padding: 16px;
-            border-radius: 6px;
-            margin-top: 12px;
-        }
-        
-        .nudge-row {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 12px;
-        }
-        
-        .btn {
-            padding: 12px 24px;
+        .create-button {
+            background: #007bff;
+            color: white;
             border: none;
+            padding: 12px 24px;
             border-radius: 6px;
             font-size: 14px;
             font-weight: 500;
             cursor: pointer;
-            transition: all 0.2s;
+            margin: 24px;
         }
         
-        .btn-primary {
-            background-color: #4285f4;
-            color: white;
-        }
-        
-        .btn-primary:hover {
-            background-color: #3367d6;
-        }
-        
-        .btn-secondary {
-            background-color: white;
-            color: #333;
-            border: 2px solid #e1e5e9;
-        }
-        
-        .btn-secondary:hover {
-            border-color: #c1c7cd;
-        }
-        
-        .action-bar {
-            display: flex;
-            gap: 12px;
-            justify-content: flex-end;
-            margin-top: 40px;
-        }
-        
-        .image-upload {
-            border: 2px dashed #e1e5e9;
-            border-radius: 6px;
-            padding: 24px;
-            text-align: center;
-            background-color: #fafbfc;
-            cursor: pointer;
-            transition: border-color 0.2s;
-        }
-        
-        .image-upload:hover {
-            border-color: #c1c7cd;
-        }
-        
-        .image-upload.has-image {
-            border-style: solid;
-            border-color: #4285f4;
-            background-color: #f8f9ff;
-        }
-        
-        .upload-text {
-            color: #666;
-            font-size: 14px;
-        }
-        
-        .divider {
-            height: 1px;
-            background-color: #e1e5e9;
-            margin: 32px 0;
+        .create-button:hover {
+            background: #0056b3;
         }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <div class="breadcrumb">
-                <a href="#" onclick="goBack()">← Post event</a> / Survey / Event survey
-            </div>
-            <h1>Create Event Survey</h1>
+            <h1>Survey</h1>
+            <h2>Event survey configuration</h2>
         </div>
         
-        <!-- Survey Eligibility -->
-        <div class="form-card">
-            <h2 class="section-title">Survey Eligibility</h2>
+        <div class="section">
+            <div class="section-title">Survey Recipients</div>
             <div class="form-group">
-                <label class="form-label">Who should receive this survey? (default as actual participants only) </label>
+                <label>Who will receive the survey?</label>
                 <div class="radio-group">
-                    <div class="radio-option selected" onclick="selectEligibility(this, 'all')">
-                        <input type="radio" name="eligibility" value="all" checked>
-                        <div class="radio-content">
-                            <div class="radio-title">All registrants</div>
-                            <div class="radio-description">Everyone who registered for the event will receive the survey</div>
-                        </div>
+                    <div class="radio-option">
+                        <input type="radio" id="all-registrants" name="recipients" value="all">
+                        <label for="all-registrants">All registrants</label>
                     </div>
-                    <div class="radio-option" onclick="selectEligibility(this, 'participants')">
-                        <input type="radio" name="eligibility" value="participants">
-                        <div class="radio-content">
-                            <div class="radio-title">Actual participants only</div>
-                            <div class="radio-description">Only attendees who joined at least one session or watched recordings</div>
-                        </div>
+                    <div class="radio-option">
+                        <input type="radio" id="actual-participants" name="recipients" value="participants" checked>
+                        <label for="actual-participants">Actual participants</label>
+                        <span class="default-badge">Default</span>
                     </div>
                 </div>
-                
-                <div class="custom-criteria" id="participantsCriteria">
-                    <div class="form-group">
-                        <label class="form-label">Participation qualification (this is for multiple session events. ZS does not need it)</label>
-                        <div class="radio-group">
-                            <div class="radio-option selected" onclick="selectParticipantType(this, 'basic')">
-                                <input type="radio" name="participantType" value="basic" checked>
-                                <div class="radio-content">
-                                    <div class="radio-title">Default qualification</div>
-                                    <div class="radio-description">Joined at least one session or watched recordings</div>
-                                </div>
-                            </div>
-                            <div class="radio-option" onclick="selectParticipantType(this, 'custom')">
-                                <input type="radio" name="participantType" value="custom">
-                                <div class="radio-content">
-                                    <div class="radio-title">Custom qualification</div>
-                                    <div class="radio-description">Define specific participation requirements</div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="custom-criteria" id="customCriteria">
-                            <div class="form-group">
-                                <label class="form-label">Minimum participation requirements</label>
-                                <div class="criteria-row">
-                                    <span>Attended at least</span>
-                                    <input type="number" class="criteria-input" value="1" min="1">
-                                    <span>session(s)</span>
-                                </div>
-                                <div class="criteria-row">
-                                    <span>With minimum</span>
-                                    <input type="number" class="criteria-input" value="5" min="1">
-                                    <span>minutes of participation per session</span>
-                                </div>
-                                <div class="checkbox-group">
-                                    <input type="checkbox" id="includeRecordings" checked>
-                                    <label for="includeRecordings">Include recording views as session participation</label>
-                                </div>
-                                <div class="help-text">Recording views count toward participation time when watched for the specified duration</div>
-                            </div>
-                        </div>
-                    </div>
+                <div class="sub-option">
+                    <span>Joined session or watched recording for</span>
+                    <input type="number" value="1" min="1">
+                    <span>minutes</span>
                 </div>
             </div>
         </div>
         
-        <!-- Survey Timing -->
-        <div class="form-card">
-            <h2 class="section-title">Survey Timing</h2>
+        <div class="section">
+            <div class="section-title">Survey Timing</div>
             <div class="form-group">
-                <label class="form-label">When should the survey open?</label>
+                <label>When should the survey open?</label>
                 <div class="radio-group">
-                    <div class="radio-option selected" onclick="selectTiming(this, 'eventEnd')">
-                        <input type="radio" name="timing" value="eventEnd" checked>
-                        <div class="radio-content">
-                            <div class="radio-title">At the end of the event</div>
-                            <div class="radio-description">Survey becomes available when the event officially ends</div>
-                        </div>
+                    <div class="radio-option">
+                        <input type="radio" id="end-event" name="timing" value="end" checked>
+                        <label for="end-event">At the end of event/session/recording</label>
+                        <span class="default-badge">Default</span>
                     </div>
-                    <div class="radio-option" onclick="selectTiming(this, 'custom')">
-                        <input type="radio" name="timing" value="custom">
-                        <div class="radio-content">
-                            <div class="radio-title">Custom timing (this allows survey invitation be triggered before the event ends)</div>
-                            <div class="radio-description">Set a specific date and time (must be within schedule session time) </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="custom-criteria" id="customTiming">
-                    <div class="form-group">
-                        <label class="form-label">Survey open date & time</label>
-                        <input type="datetime-local" class="form-input">
-                        <div class="help-text">Survey will become available at the specified time</div>
+                    <div class="radio-option">
+                        <input type="radio" id="custom-time" name="timing" value="custom">
+                        <label for="custom-time">Custom time</label>
                     </div>
                 </div>
             </div>
         </div>
         
-        <!-- Survey Display -->
-        <div class="form-card">
-            <h2 class="section-title">Survey Display</h2>
+        <div class="section">
+            <div class="section-title">Survey Display</div>
             <div class="form-group">
-                <label class="form-label">How should the survey open?</label>
+                <label>How should the survey open?</label>
                 <div class="radio-group">
-                    <div class="radio-option selected" onclick="selectDisplay(this, 'popover')">
-                        <input type="radio" name="display" value="popover" checked>
-                        <div class="radio-content">
-                            <div class="radio-title">Popover on current window</div>
-                            <div class="radio-description">Survey appears as an overlay on the current page</div>
-                        </div>
+                    <div class="radio-option">
+                        <input type="radio" id="popover" name="display" value="popover" checked>
+                        <label for="popover">Popover on current window</label>
                     </div>
-                    <div class="radio-option" onclick="selectDisplay(this, 'newPage')">
-                        <input type="radio" name="display" value="newPage">
-                        <div class="radio-content">
-                            <div class="radio-title">New browser page</div>
-                            <div class="radio-description">Survey opens in a new browser tab/window</div>
-                        </div>
+                    <div class="radio-option">
+                        <input type="radio" id="new-page" name="display" value="page">
+                        <label for="new-page">New browser page</label>
                     </div>
                 </div>
             </div>
         </div>
         
-        <!-- Lobby Invitation -->
-        <div class="form-card">
-            <h2 class="section-title">Lobby Invitation</h2>
-            <div class="help-text" style="margin-bottom: 24px; color: #666; font-size: 14px;">
-                Note: Attendees with unresponded event invitation will get lobby invitation.
+        <div class="section">
+            <div class="section-title">Invitation Customization</div>
+            <div class="form-group">
+                <label>Invitation blurb copy</label>
+                <textarea placeholder="Enter custom text for the survey invitation in the lobby..."></textarea>
             </div>
             <div class="form-group">
-                <label class="form-label">Invitation image</label>
-                <div class="image-upload" onclick="uploadImage()">
-                    <div class="upload-text">Click to upload image or drag and drop</div>
-                    <div class="help-text">Recommended size: 400x200px, max file size: 2MB</div>
-                </div>
-            </div>
-            
-            <div class="form-group">
-                <label class="form-label">Invitation headline</label>
-                <input type="text" class="form-input" value="Help us improve future events" placeholder="Enter headline text">
-            </div>
-            
-            <div class="form-group">
-                <label class="form-label">Invitation message</label>
-                <textarea class="form-textarea" placeholder="Enter invitation message">Your feedback is valuable to us. Please take a few minutes to share your thoughts about this event.</textarea>
-            </div>
-            
-            <div class="form-group">
-                <label class="form-label">Call-to-action button text</label>
-                <input type="text" class="form-input" value="Take Survey" placeholder="Enter button text">
+                <label>Invitation image</label>
+                <input type="file" accept="image/*">
             </div>
         </div>
         
-        <!-- Follow-up & Nudging -->
-        <div class="form-card">
-            <h2 class="section-title">Follow-up & Nudging</h2>
-            <div class="form-group">
-                <div class="checkbox-group">
-                    <input type="checkbox" id="enableNudging" checked onchange="toggleNudging()">
-                    <label for="enableNudging">Enable follow-up reminders email for non-respondents</label>
-                </div>
-                
-                <div class="nudge-settings" id="nudgeSettings">
-                    <div class="form-group">
-                        <label class="form-label">Follow-up frequency</label>
-                        <div class="nudge-row">
-                            <span>Send reminder every</span>
-                            <input type="number" class="criteria-input" value="24" min="24">
-                            <span>hours</span>
-                        </div>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label class="form-label">Maximum reminders</label>
-                        <div class="nudge-row">
-                            <span>Send up to</span>
-                            <input type="number" class="criteria-input" value="3" min="1" max="3">
-                            <span>reminder(s)</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Survey Window Customization -->
-        <div class="form-card">
-            <h2 class="section-title">Survey Window Customization</h2>
-            <div class="form-group">
-                <label class="form-label">Survey window title</label>
-                <input type="text" class="form-input" value="Event Feedback Survey" placeholder="Enter window title">
-                <div class="help-text">This appears at the top of the survey window</div>
-            </div>
-            
-            <div class="form-group">
-                <label class="form-label">Welcome message</label>
-                <textarea class="form-textarea" placeholder="Enter welcome message (optional)">Thank you for attending our event! Please share your thoughts to help us improve future experiences.</textarea>
-                <div class="help-text">Optional introduction text shown before survey questions</div>
-            </div>
-            
-            <div class="form-group">
-                <label class="form-label">Completion message</label>
-                <textarea class="form-textarea" placeholder="Enter completion message">Thank you for your feedback! Your responses have been submitted successfully.</textarea>
-                <div class="help-text">Message shown after survey submission</div>
-            </div>
-            
+        <div class="section">
+            <div class="section-title">Response Nudges</div>
             <div class="checkbox-group">
-                <input type="checkbox" id="hideMessages">
-                <label for="hideMessages">Hide all custom messages (use survey template defaults)</label>
+                <input type="checkbox" id="enable-nudges" checked>
+                <label for="enable-nudges">Send reminder emails to non-respondents</label>
+            </div>
+            <div class="form-group" style="margin-top: 16px;">
+                <label>Interval between reminders</label>
+                <select>
+                    <option value="24" selected>24 hours</option>
+                    <option value="48">48 hours</option>
+                    <option value="72">72 hours</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Maximum number of reminders</label>
+                <select>
+                    <option value="1">1 reminder</option>
+                    <option value="2">2 reminders</option>
+                    <option value="3" selected>3 reminders</option>
+                </select>
             </div>
         </div>
         
-        <div class="action-bar">
-            <button class="btn btn-secondary" onclick="saveDraft()">Save as Draft</button>
-            <button class="btn btn-primary" onclick="proceedToQuestions()">Continue to Survey Questions</button>
+        <div class="section">
+            <div class="section-title">Survey Window Customization</div>
+            <div class="form-group">
+                <label>Survey window title</label>
+                <input type="text" placeholder="Enter custom title...">
+            </div>
+            <div class="form-group">
+                <label>Survey window description</label>
+                <textarea placeholder="Enter custom description..."></textarea>
+            </div>
+            <div class="checkbox-group">
+                <input type="checkbox" id="remove-branding">
+                <label for="remove-branding">Remove default branding/copy</label>
+            </div>
         </div>
+        
+        <button class="create-button">+ Create Event Survey</button>
     </div>
-    
-    <script>
-        function selectEligibility(element, value) {
-            // Remove selected class from all options in the eligibility section
-            element.parentNode.querySelectorAll('.radio-option').forEach(opt => opt.classList.remove('selected'));
-            // Add selected class to clicked option
-            element.classList.add('selected');
-            // Check the radio button
-            element.querySelector('input[type="radio"]').checked = true;
-            
-            // Show/hide participants criteria
-            const participantsCriteria = document.getElementById('participantsCriteria');
-            if (value === 'participants') {
-                participantsCriteria.classList.add('visible');
-            } else {
-                participantsCriteria.classList.remove('visible');
-            }
-        }
-        
-        function selectParticipantType(element, value) {
-            // Remove selected class from all options in the participant type section
-            element.parentNode.querySelectorAll('.radio-option').forEach(opt => opt.classList.remove('selected'));
-            // Add selected class to clicked option
-            element.classList.add('selected');
-            // Check the radio button
-            element.querySelector('input[type="radio"]').checked = true;
-            
-            // Show/hide custom criteria
-            const customCriteria = document.getElementById('customCriteria');
-            if (value === 'custom') {
-                customCriteria.classList.add('visible');
-            } else {
-                customCriteria.classList.remove('visible');
-            }
-        }
-        
-        function selectTiming(element, value) {
-            // Update radio selection for timing section
-            element.parentNode.querySelectorAll('.radio-option').forEach(opt => opt.classList.remove('selected'));
-            element.classList.add('selected');
-            element.querySelector('input[type="radio"]').checked = true;
-            
-            // Show/hide custom timing
-            const customTiming = document.getElementById('customTiming');
-            if (value === 'custom') {
-                customTiming.classList.add('visible');
-            } else {
-                customTiming.classList.remove('visible');
-            }
-        }
-        
-        function selectDisplay(element, value) {
-            // Update radio selection for display section
-            element.parentNode.querySelectorAll('.radio-option').forEach(opt => opt.classList.remove('selected'));
-            element.classList.add('selected');
-            element.querySelector('input[type="radio"]').checked = true;
-        }
-        
-        function toggleNudging() {
-            const checkbox = document.getElementById('enableNudging');
-            const settings = document.getElementById('nudgeSettings');
-            
-            if (checkbox.checked) {
-                settings.style.display = 'block';
-            } else {
-                settings.style.display = 'none';
-            }
-        }
-        
-        function uploadImage() {
-            // Simulate image upload
-            const uploadDiv = event.target.closest('.image-upload');
-            uploadDiv.classList.add('has-image');
-            uploadDiv.innerHTML = `
-                <div class="upload-text">Event_survey_banner.jpg uploaded successfully</div>
-                <div class="help-text">Click to replace image</div>
-            `;
-        }
-        
-        function saveDraft() {
-            alert('Survey configuration saved as draft');
-        }
-        
-        function proceedToQuestions() {
-            alert('Proceeding to survey question builder...');
-        }
-        
-        function goBack() {
-            alert('Returning to post-event survey list...');
-        }
-        
-        // Initialize page
-        document.addEventListener('DOMContentLoaded', function() {
-            // Set default datetime to tomorrow
-            const tomorrow = new Date();
-            tomorrow.setDate(tomorrow.getDate() + 1);
-            tomorrow.setHours(9, 0); // Set to 9 AM
-            
-            const datetimeInput = document.querySelector('input[type="datetime-local"]');
-            if (datetimeInput) {
-                datetimeInput.value = tomorrow.toISOString().slice(0, 16);
-            }
-        });
-    </script>
 </body>
 </html>
