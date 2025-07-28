@@ -390,7 +390,7 @@
                     <option value="design">Design Academy</option>
                     <option value="business">Business Insights</option>
                 </select>
-                <div style="font-size: 12px; color: #6c757d; margin-top: 4px;">open channel analytics</div>
+                <div style="font-size: 12px; color: #6c757d; margin-top: 4px;">open channel</div>
             </div>
 
         </div>
@@ -487,8 +487,9 @@
                             <thead>
                                 <tr>
                                     <th class="sortable" data-sort="viewer">Viewer</th>
-                                    <th class="sortable" data-sort="video">Video</th>
-                                    <th class="sortable" data-sort="channel">Channel</th>
+                                    <th class="sortable" data-sort="firstName">First Name</th>
+                                    <th class="sortable" data-sort="lastName">Last Name</th>
+                                    <th class="sortable" data-sort="registrationDate">Registration Date</th>
                                     <th class="sortable" data-sort="watches">Watches</th>
                                     <th class="sortable" data-sort="watchTime">Watch Time</th>
                                     <th class="sortable" data-sort="engagementScore">Engagement Score</th>
@@ -684,16 +685,16 @@
                 { video: "Content Marketing Tips", channel: "Marketing Hub", watches: 423, watchTime: "58h 45m", viewers: 318 }
             ],
             viewers: [
-                { viewer: "alex.johnson@company.com", video: "Advanced React Hooks", channel: "Tech Tutorials", watches: 12, watchTime: "18h 45m", engagementScore: 85 },
-                { viewer: "sarah.williams@startup.com", video: "Marketing Automation 101", channel: "Marketing Hub", watches: 8, watchTime: "14h 32m", engagementScore: 72 },
-                { viewer: "mike.chen@design.agency", video: "UX Design Principles", channel: "Design Academy", watches: 15, watchTime: "22h 18m", engagementScore: 91 },
-                { viewer: "emma.davis@biztech.com", video: "Data Analytics Mastery", channel: "Business Insights", watches: 6, watchTime: "9h 23m", engagementScore: 68 },
-                { viewer: "john.smith@webdev.io", video: "JavaScript ES2024 Features", channel: "Tech Tutorials", watches: 11, watchTime: "16h 47m", engagementScore: 79 },
-                { viewer: "lisa.brown@marketing.pro", video: "Social Media Strategy", channel: "Marketing Hub", watches: 9, watchTime: "13h 25m", engagementScore: 74 },
-                { viewer: "david.wilson@creative.studio", video: "Figma Advanced Techniques", channel: "Design Academy", watches: 7, watchTime: "10h 58m", engagementScore: 66 },
-                { viewer: "anna.garcia@finance.corp", video: "Financial Planning Guide", channel: "Business Insights", watches: 5, watchTime: "7h 41m", engagementScore: 62 },
-                { viewer: "ryan.taylor@techstartup.com", video: "Vue.js 3 Composition API", channel: "Tech Tutorials", watches: 10, watchTime: "15h 12m", engagementScore: 77 },
-                { viewer: "jessica.moore@content.agency", video: "Content Marketing Tips", channel: "Marketing Hub", watches: 4, watchTime: "6h 18m", engagementScore: 58 }
+                { viewer: "alex.johnson@company.com", firstName: "Alex", lastName: "Johnson", registrationDate: "2024-03-15", watches: 12, watchTime: "18h 45m", engagementScore: 85 },
+                { viewer: "sarah.williams@startup.com", firstName: "Sarah", lastName: "Williams", registrationDate: "2024-06-22", watches: 8, watchTime: "14h 32m", engagementScore: 72 },
+                { viewer: "mike.chen@design.agency", firstName: "Mike", lastName: "Chen", registrationDate: "2024-01-08", watches: 15, watchTime: "22h 18m", engagementScore: 91 },
+                { viewer: "emma.davis@biztech.com", firstName: "Emma", lastName: "Davis", registrationDate: "2024-09-12", watches: 6, watchTime: "9h 23m", engagementScore: 68 },
+                { viewer: "john.smith@webdev.io", firstName: "John", lastName: "Smith", registrationDate: "2024-02-28", watches: 11, watchTime: "16h 47m", engagementScore: 79 },
+                { viewer: "lisa.brown@marketing.pro", firstName: "Lisa", lastName: "Brown", registrationDate: "2024-07-19", watches: 9, watchTime: "13h 25m", engagementScore: 74 },
+                { viewer: "david.wilson@creative.studio", firstName: "David", lastName: "Wilson", registrationDate: "2024-05-03", watches: 7, watchTime: "10h 58m", engagementScore: 66 },
+                { viewer: "anna.garcia@finance.corp", firstName: "Anna", lastName: "Garcia", registrationDate: "2024-11-07", watches: 5, watchTime: "7h 41m", engagementScore: 62 },
+                { viewer: "ryan.taylor@techstartup.com", firstName: "Ryan", lastName: "Taylor", registrationDate: "2024-04-14", watches: 10, watchTime: "15h 12m", engagementScore: 77 },
+                { viewer: "jessica.moore@content.agency", firstName: "Jessica", lastName: "Moore", registrationDate: "2024-08-25", watches: 4, watchTime: "6h 18m", engagementScore: 58 }
             ],
             engagements: {
                 surveys: [
@@ -777,8 +778,9 @@
                         ${row.viewer}
                         <div class="viewer-type ${viewerType.class}">${viewerType.label}</div>
                     </td>
-                    <td>${row.video}</td>
-                    <td>${row.channel}</td>
+                    <td>${row.firstName}</td>
+                    <td>${row.lastName}</td>
+                    <td>${row.registrationDate}</td>
                     <td>${row.watches}</td>
                     <td>${row.watchTime}</td>
                     <td>
