@@ -3,281 +3,1001 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Event Survey Configuration</title>
+    <title>Cross-Channel Analytics Dashboard</title>
     <style>
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background-color: #f8f9fa;
+        * {
             margin: 0;
-            padding: 20px;
-            color: #333;
-        }
-        
-        .container {
-            max-width: 600px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-            overflow: hidden;
-        }
-        
-        .header {
-            padding: 24px;
-            border-bottom: 1px solid #e9ecef;
-        }
-        
-        .header h1 {
-            margin: 0;
-            font-size: 28px;
-            font-weight: 600;
-            color: #333;
-        }
-        
-        .header h2 {
-            margin: 8px 0 0 0;
-            font-size: 18px;
-            font-weight: 500;
-            color: #666;
-        }
-        
-        .section {
-            padding: 24px;
-            border-bottom: 1px solid #e9ecef;
-        }
-        
-        .section:last-child {
-            border-bottom: none;
-        }
-        
-        .section-title {
-            font-size: 16px;
-            font-weight: 600;
-            margin-bottom: 16px;
-            color: #333;
-        }
-        
-        .form-group {
-            margin-bottom: 16px;
-        }
-        
-        .form-group:last-child {
-            margin-bottom: 0;
-        }
-        
-        label {
-            display: block;
-            font-size: 14px;
-            font-weight: 500;
-            margin-bottom: 6px;
-            color: #555;
-        }
-        
-        select, input, textarea {
-            width: 100%;
-            padding: 8px 12px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-size: 14px;
+            padding: 0;
             box-sizing: border-box;
         }
-        
-        textarea {
-            resize: vertical;
-            min-height: 80px;
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: #f5f6fa;
+            min-height: 100vh;
+            padding: 20px;
         }
-        
-        .radio-group {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-        
-        .radio-option {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
-        .radio-option input[type="radio"] {
-            width: auto;
-            margin: 0;
-        }
-        
-        .radio-option label {
-            margin: 0;
-            font-weight: normal;
-        }
-        
-        .default-badge {
-            background: #e3f2fd;
-            color: #1976d2;
-            padding: 2px 8px;
+
+        .dashboard {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
             border-radius: 12px;
-            font-size: 12px;
-            font-weight: 500;
-            margin-left: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
         }
-        
-        .sub-option {
-            margin-left: 24px;
-            margin-top: 8px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
-        .sub-option input {
-            width: 60px;
-        }
-        
-        .checkbox-group {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            margin-top: 8px;
-        }
-        
-        .checkbox-group input[type="checkbox"] {
-            width: auto;
-            margin: 0;
-        }
-        
-        .create-button {
-            background: #007bff;
+
+        .header {
+            background: #2f3542;
             color: white;
-            border: none;
-            padding: 12px 24px;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 1.1rem;
+        }
+
+        .controls {
+            padding: 20px 30px;
+            background: #f8f9fa;
+            border-bottom: 1px solid #e9ecef;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .filter-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .filter-group label {
+            font-weight: 600;
+            color: #495057;
+        }
+
+        select, input {
+            padding: 8px 12px;
+            border: 1px solid #dee2e6;
             border-radius: 6px;
             font-size: 14px;
-            font-weight: 500;
-            cursor: pointer;
-            margin: 24px;
+            background: white;
+            transition: all 0.2s ease;
         }
-        
-        .create-button:hover {
-            background: #0056b3;
+
+        select:focus, input:focus {
+            outline: none;
+            border-color: #6c757d;
+        }
+
+        .content {
+            padding: 30px;
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .metric-card {
+            background: white;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            text-align: center;
+            transition: transform 0.2s ease;
+            border: 1px solid #e9ecef;
+        }
+
+        .metric-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .metric-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #343a40;
+            margin-bottom: 8px;
+        }
+
+        .metric-label {
+            font-size: 0.9rem;
+            color: #6c757d;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        .section {
+            margin-bottom: 40px;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            color: #343a40;
+            margin-bottom: 20px;
+            font-weight: 700;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background: #6c757d;
+            border-radius: 2px;
+        }
+
+        .tabs-container {
+            margin-top: 40px;
+        }
+
+        .tabs {
+            display: flex;
+            border-bottom: 2px solid #e9ecef;
+            margin-bottom: 30px;
+        }
+
+        .tab {
+            padding: 12px 24px;
+            background: none;
+            border: none;
+            font-size: 16px;
+            font-weight: 600;
+            color: #6c757d;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            transition: all 0.2s ease;
+        }
+
+        .tab:hover {
+            color: #495057;
+        }
+
+        .tab.active {
+            color: #343a40;
+            border-bottom-color: #343a40;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .engagement-tables {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            gap: 30px;
+        }
+
+        .engagement-section {
+            margin-bottom: 30px;
+        }
+
+        .engagement-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #343a40;
+            margin-bottom: 15px;
+            padding-left: 5px;
+        }
+
+        .table-container {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e9ecef;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            background: #495057;
+            color: white;
+            padding: 15px 10px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background 0.2s ease;
+            position: relative;
+        }
+
+        th:hover {
+            background: #343a40;
+        }
+
+        th.sortable::after {
+            content: '↕';
+            position: absolute;
+            right: 8px;
+            opacity: 0.6;
+        }
+
+        th.sort-asc::after {
+            content: '↑';
+            opacity: 1;
+        }
+
+        th.sort-desc::after {
+            content: '↓';
+            opacity: 1;
+        }
+
+        td {
+            padding: 12px 10px;
+            border-bottom: 1px solid #e9ecef;
+            font-size: 14px;
+            color: #495057;
+        }
+
+        tr:hover {
+            background: #f8f9fa;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .badge-survey { background: #e8f5e8; color: #28a745; }
+        .badge-poll { background: #fff3cd; color: #ffc107; }
+        .badge-qa { background: #e3f2fd; color: #007bff; }
+        .badge-comment { background: #f3e5f5; color: #6f42c1; }
+        .badge-download { background: #fce4ec; color: #dc3545; }
+        .badge-reaction { background: #fff8e1; color: #fd7e14; }
+
+        .viewer-type {
+            font-weight: 600;
+            padding: 4px 8px;
+            border-radius: 8px;
+            font-size: 12px;
+        }
+
+        .new-viewer { background: #d5edda; color: #28a745; }
+        .repeat-viewer { background: #fff3cd; color: #ffc107; }
+        .light-viewer { background: #cfe2ff; color: #007bff; }
+        .heavy-viewer { background: #f8d7da; color: #dc3545; }
+
+        .engagement-score {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .score-bar {
+            flex: 1;
+            height: 8px;
+            background: #e9ecef;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .score-fill {
+            height: 100%;
+            background: #6c757d;
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .pagination button {
+            padding: 8px 16px;
+            border: 1px solid #6c757d;
+            background: white;
+            color: #6c757d;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+
+        .pagination button:hover:not(:disabled) {
+            background: #6c757d;
+            color: white;
+        }
+
+        .pagination button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .pagination button.active {
+            background: #6c757d;
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            .controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .filter-group {
+                justify-content: space-between;
+            }
+
+            .metrics-grid {
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            }
+
+            .table-container {
+                overflow-x: auto;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="container">
+    <div class="dashboard">
         <div class="header">
-            <h1>Survey</h1>
-            <h2>Event survey configuration</h2>
+            <h1>Cross-Channel Analytics</h1>
+            <p>Comprehensive metrics and insights across all channels</p>
         </div>
-        
-        <div class="section">
-            <div class="section-title">Survey Recipients</div>
-            <div class="form-group">
-                <label>Who will receive the survey?</label>
-                <div class="radio-group">
-                    <div class="radio-option">
-                        <input type="radio" id="all-registrants" name="recipients" value="all">
-                        <label for="all-registrants">All registrants</label>
-                    </div>
-                    <div class="radio-option">
-                        <input type="radio" id="actual-participants" name="recipients" value="participants" checked>
-                        <label for="actual-participants">Actual participants</label>
-                        <span class="default-badge">Default</span>
-                    </div>
-                </div>
-                <div class="sub-option">
-                    <span>Joined session or watched recording for</span>
-                    <input type="number" value="1" min="1">
-                    <span>minutes</span>
-                </div>
-            </div>
-        </div>
-        
-        <div class="section">
-            <div class="section-title">Survey Timing</div>
-            <div class="form-group">
-                <label>When should the survey open?</label>
-                <div class="radio-group">
-                    <div class="radio-option">
-                        <input type="radio" id="end-event" name="timing" value="end" checked>
-                        <label for="end-event">At the end of event/session/recording</label>
-                        <span class="default-badge">Default</span>
-                    </div>
-                    <div class="radio-option">
-                        <input type="radio" id="custom-time" name="timing" value="custom">
-                        <label for="custom-time">Custom time</label>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <div class="section">
-            <div class="section-title">Survey Display</div>
-            <div class="form-group">
-                <label>How should the survey open?</label>
-                <div class="radio-group">
-                    <div class="radio-option">
-                        <input type="radio" id="popover" name="display" value="popover" checked>
-                        <label for="popover">Popover on current window</label>
-                    </div>
-                    <div class="radio-option">
-                        <input type="radio" id="new-page" name="display" value="page">
-                        <label for="new-page">New browser page</label>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <div class="section">
-            <div class="section-title">Invitation Customization</div>
-            <div class="form-group">
-                <label>Invitation blurb copy</label>
-                <textarea placeholder="Enter custom text for the survey invitation in the lobby..."></textarea>
-            </div>
-            <div class="form-group">
-                <label>Invitation image</label>
-                <input type="file" accept="image/*">
-            </div>
-        </div>
-        
-        <div class="section">
-            <div class="section-title">Response Nudges</div>
-            <div class="checkbox-group">
-                <input type="checkbox" id="enable-nudges" checked>
-                <label for="enable-nudges">Send reminder emails to non-respondents</label>
-            </div>
-            <div class="form-group" style="margin-top: 16px;">
-                <label>Interval between reminders</label>
-                <select>
-                    <option value="24" selected>24 hours</option>
-                    <option value="48">48 hours</option>
-                    <option value="72">72 hours</option>
+
+        <div class="controls">
+            <div class="filter-group">
+                <label for="timeFilter">Time Period:</label>
+                <select id="timeFilter">
+                    <option value="1">Today</option>
+                    <option value="7" selected>Last 7 Days</option>
+                    <option value="30">Last 30 Days</option>
+                    <option value="90">Last 90 Days</option>
                 </select>
             </div>
-            <div class="form-group">
-                <label>Maximum number of reminders</label>
-                <select>
-                    <option value="1">1 reminder</option>
-                    <option value="2">2 reminders</option>
-                    <option value="3" selected>3 reminders</option>
+            <div class="filter-group">
+                <label for="channelFilter">Channel:</label>
+                <select id="channelFilter">
+                    <option value="all">All Channels</option>
+                    <option value="tech">Tech Tutorials</option>
+                    <option value="marketing">Marketing Hub</option>
+                    <option value="design">Design Academy</option>
+                    <option value="business">Business Insights</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label for="sortBy">Sort By:</label>
+                <select id="sortBy">
+                    <option value="watchTime" selected>Watch Time</option>
+                    <option value="watches">Watches</option>
+                    <option value="viewers">Viewers</option>
+                    <option value="engagement">Engagement</option>
                 </select>
             </div>
         </div>
-        
-        <div class="section">
-            <div class="section-title">Survey Window Customization</div>
-            <div class="form-group">
-                <label>Survey window title</label>
-                <input type="text" placeholder="Enter custom title...">
+
+        <div class="content">
+            <!-- Content Metrics -->
+            <div class="section">
+                <h2 class="section-title">Content Overview</h2>
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <div class="metric-value">12</div>
+                        <div class="metric-label">Total Channels</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value">1,247</div>
+                        <div class="metric-label">Total Videos</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value">45,892</div>
+                        <div class="metric-label">Total Watches</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value">2,847h</div>
+                        <div class="metric-label">Total Watch Time</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value">983</div>
+                        <div class="metric-label">Watched Videos</div>
+                    </div>
+                </div>
             </div>
-            <div class="form-group">
-                <label>Survey window description</label>
-                <textarea placeholder="Enter custom description..."></textarea>
+
+            <!-- Viewer Metrics -->
+            <div class="section">
+                <h2 class="section-title">Viewer Overview</h2>
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <div class="metric-value">8,432</div>
+                        <div class="metric-label">Total Registrants</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value">6,829</div>
+                        <div class="metric-label">Unique Viewers</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value">2,847</div>
+                        <div class="metric-label">New Viewers</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value">3,982</div>
+                        <div class="metric-label">Repeat Viewers</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value">5,201</div>
+                        <div class="metric-label">Light Viewers</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value">1,628</div>
+                        <div class="metric-label">Heavy Viewers</div>
+                    </div>
+                </div>
             </div>
-            <div class="checkbox-group">
-                <input type="checkbox" id="remove-branding">
-                <label for="remove-branding">Remove default branding/copy</label>
+
+            <!-- Watches Table -->
+            <div class="tabs-container">
+                <div class="tabs">
+                    <button class="tab active" data-tab="watches">Watches Performance</button>
+                    <button class="tab" data-tab="viewers">Viewer Details</button>
+                    <button class="tab" data-tab="engagements">Engagement Details</button>
+                </div>
+
+                <div id="watches" class="tab-content active">
+                    <div class="table-container">
+                        <table id="watchesTable">
+                            <thead>
+                                <tr>
+                                    <th class="sortable" data-sort="video">Video</th>
+                                    <th class="sortable" data-sort="channel">Channel</th>
+                                    <th class="sortable" data-sort="watches">Watches</th>
+                                    <th class="sortable sort-desc" data-sort="watchTime">Watch Time</th>
+                                    <th class="sortable" data-sort="viewers">Viewers</th>
+                                </tr>
+                            </thead>
+                            <tbody id="watchesTableBody">
+                                <!-- Data will be populated by JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div id="viewers" class="tab-content">
+                    <div class="table-container">
+                        <table id="viewersTable">
+                            <thead>
+                                <tr>
+                                    <th class="sortable" data-sort="viewer">Viewer</th>
+                                    <th class="sortable" data-sort="video">Video</th>
+                                    <th class="sortable" data-sort="channel">Channel</th>
+                                    <th class="sortable" data-sort="watches">Watches</th>
+                                    <th class="sortable" data-sort="watchTime">Watch Time</th>
+                                    <th class="sortable" data-sort="engagementScore">Engagement Score</th>
+                                </tr>
+                            </thead>
+                            <tbody id="viewersTableBody">
+                                <!-- Data will be populated by JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div id="engagements" class="tab-content">
+                    <div class="engagement-tables">
+                        <!-- Survey Table -->
+                        <div class="engagement-section">
+                            <h3 class="engagement-title">Survey Engagements</h3>
+                            <div class="table-container">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Survey Name</th>
+                                            <th>Channel</th>
+                                            <th>Video</th>
+                                            <th>User</th>
+                                            <th>Context</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="surveyTableBody">
+                                        <!-- Data will be populated by JavaScript -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Q&A Table -->
+                        <div class="engagement-section">
+                            <h3 class="engagement-title">Q&A Engagements</h3>
+                            <div class="table-container">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Channel</th>
+                                            <th>Video</th>
+                                            <th>User</th>
+                                            <th>Context</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="qaTableBody">
+                                        <!-- Data will be populated by JavaScript -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Polls Table -->
+                        <div class="engagement-section">
+                            <h3 class="engagement-title">Poll Engagements</h3>
+                            <div class="table-container">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Poll Name</th>
+                                            <th>Channel</th>
+                                            <th>Video</th>
+                                            <th>User</th>
+                                            <th>Context</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="pollsTableBody">
+                                        <!-- Data will be populated by JavaScript -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Quizzes Table -->
+                        <div class="engagement-section">
+                            <h3 class="engagement-title">Quiz Engagements</h3>
+                            <div class="table-container">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Quiz Name</th>
+                                            <th>Channel</th>
+                                            <th>Video</th>
+                                            <th>User</th>
+                                            <th>Context</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="quizzesTableBody">
+                                        <!-- Data will be populated by JavaScript -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Video Downloads Table -->
+                        <div class="engagement-section">
+                            <h3 class="engagement-title">Video Downloads</h3>
+                            <div class="table-container">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Video Name</th>
+                                            <th>Channel</th>
+                                            <th>User</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="videoDownloadsTableBody">
+                                        <!-- Data will be populated by JavaScript -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Comments Table -->
+                        <div class="engagement-section">
+                            <h3 class="engagement-title">Comments</h3>
+                            <div class="table-container">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Video Name</th>
+                                            <th>Channel</th>
+                                            <th>User</th>
+                                            <th>Context</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="commentsTableBody">
+                                        <!-- Data will be populated by JavaScript -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Resource Downloads Table -->
+                        <div class="engagement-section">
+                            <h3 class="engagement-title">Resource Downloads</h3>
+                            <div class="table-container">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Channel</th>
+                                            <th>Video</th>
+                                            <th>User</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="resourceDownloadsTableBody">
+                                        <!-- Data will be populated by JavaScript -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Reactions Table -->
+                        <div class="engagement-section">
+                            <h3 class="engagement-title">Reactions</h3>
+                            <div class="table-container">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Video Name</th>
+                                            <th>Channel</th>
+                                            <th>User</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="reactionsTableBody">
+                                        <!-- Data will be populated by JavaScript -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-        
-        <button class="create-button">+ Create Event Survey</button>
     </div>
+
+    <script>
+        // Mock data
+        const mockData = {
+            watches: [
+                { video: "Advanced React Hooks", channel: "Tech Tutorials", watches: 1247, watchTime: "186h 23m", viewers: 982 },
+                { video: "Marketing Automation 101", channel: "Marketing Hub", watches: 934, watchTime: "142h 45m", viewers: 743 },
+                { video: "UX Design Principles", channel: "Design Academy", watches: 1102, watchTime: "134h 18m", viewers: 856 },
+                { video: "Data Analytics Mastery", channel: "Business Insights", watches: 827, watchTime: "128h 52m", viewers: 645 },
+                { video: "JavaScript ES2024 Features", channel: "Tech Tutorials", watches: 756, watchTime: "112h 34m", viewers: 589 },
+                { video: "Social Media Strategy", channel: "Marketing Hub", watches: 692, watchTime: "98h 47m", viewers: 534 },
+                { video: "Figma Advanced Techniques", channel: "Design Academy", watches: 584, watchTime: "87h 29m", viewers: 456 },
+                { video: "Financial Planning Guide", channel: "Business Insights", watches: 518, watchTime: "76h 12m", viewers: 398 },
+                { video: "Vue.js 3 Composition API", channel: "Tech Tutorials", watches: 467, watchTime: "64h 38m", viewers: 352 },
+                { video: "Content Marketing Tips", channel: "Marketing Hub", watches: 423, watchTime: "58h 45m", viewers: 318 }
+            ],
+            viewers: [
+                { viewer: "alex.johnson@company.com", video: "Advanced React Hooks", channel: "Tech Tutorials", watches: 12, watchTime: "18h 45m", engagementScore: 85 },
+                { viewer: "sarah.williams@startup.com", video: "Marketing Automation 101", channel: "Marketing Hub", watches: 8, watchTime: "14h 32m", engagementScore: 72 },
+                { viewer: "mike.chen@design.agency", video: "UX Design Principles", channel: "Design Academy", watches: 15, watchTime: "22h 18m", engagementScore: 91 },
+                { viewer: "emma.davis@biztech.com", video: "Data Analytics Mastery", channel: "Business Insights", watches: 6, watchTime: "9h 23m", engagementScore: 68 },
+                { viewer: "john.smith@webdev.io", video: "JavaScript ES2024 Features", channel: "Tech Tutorials", watches: 11, watchTime: "16h 47m", engagementScore: 79 },
+                { viewer: "lisa.brown@marketing.pro", video: "Social Media Strategy", channel: "Marketing Hub", watches: 9, watchTime: "13h 25m", engagementScore: 74 },
+                { viewer: "david.wilson@creative.studio", video: "Figma Advanced Techniques", channel: "Design Academy", watches: 7, watchTime: "10h 58m", engagementScore: 66 },
+                { viewer: "anna.garcia@finance.corp", video: "Financial Planning Guide", channel: "Business Insights", watches: 5, watchTime: "7h 41m", engagementScore: 62 },
+                { viewer: "ryan.taylor@techstartup.com", video: "Vue.js 3 Composition API", channel: "Tech Tutorials", watches: 10, watchTime: "15h 12m", engagementScore: 77 },
+                { viewer: "jessica.moore@content.agency", video: "Content Marketing Tips", channel: "Marketing Hub", watches: 4, watchTime: "6h 18m", engagementScore: 58 }
+            ],
+            engagements: {
+                surveys: [
+                    { name: "React Hooks Feedback", channel: "Tech Tutorials", video: "Advanced React Hooks", user: "alex.johnson@company.com", context: "Completed post-video survey with 5-star rating" },
+                    { name: "UX Design Assessment", channel: "Design Academy", video: "UX Design Principles", user: "mike.chen@design.agency", context: "Provided detailed feedback on design process" },
+                    { name: "Marketing Strategy Survey", channel: "Marketing Hub", video: "Marketing Automation 101", user: "sarah.williams@startup.com", context: "Rated content effectiveness as excellent" },
+                    { name: "Business Analytics Survey", channel: "Business Insights", video: "Data Analytics Mastery", user: "emma.davis@biztech.com", context: "Suggested additional case studies" }
+                ],
+                qa: [
+                    { channel: "Marketing Hub", video: "Marketing Automation 101", user: "sarah.williams@startup.com", context: "Asked about email segmentation strategies" },
+                    { channel: "Tech Tutorials", video: "Vue.js 3 Composition API", user: "ryan.taylor@techstartup.com", context: "Question about reactive refs implementation" },
+                    { channel: "Design Academy", video: "UX Design Principles", user: "david.wilson@creative.studio", context: "Inquired about accessibility best practices" },
+                    { channel: "Business Insights", video: "Financial Planning Guide", user: "anna.garcia@finance.corp", context: "Asked for clarification on ROI calculations" }
+                ],
+                polls: [
+                    { name: "Preferred Framework", channel: "Tech Tutorials", video: "JavaScript ES2024 Features", user: "john.smith@webdev.io", context: "Voted for React over Vue" },
+                    { name: "Design Tool Preference", channel: "Design Academy", video: "Figma Advanced Techniques", user: "mike.chen@design.agency", context: "Selected Figma as primary tool" },
+                    { name: "Marketing Channel Effectiveness", channel: "Marketing Hub", video: "Social Media Strategy", user: "lisa.brown@marketing.pro", context: "Chose social media as most effective" },
+                    { name: "Investment Priority", channel: "Business Insights", video: "Financial Planning Guide", user: "emma.davis@biztech.com", context: "Selected technology as top investment area" }
+                ],
+                quizzes: [
+                    { name: "Marketing Fundamentals", channel: "Marketing Hub", video: "Social Media Strategy", user: "lisa.brown@marketing.pro", context: "Scored 85% on marketing basics quiz" },
+                    { name: "JavaScript ES2024 Quiz", channel: "Tech Tutorials", video: "JavaScript ES2024 Features", user: "alex.johnson@company.com", context: "Perfect score on new features assessment" },
+                    { name: "UX Principles Test", channel: "Design Academy", video: "UX Design Principles", user: "david.wilson@creative.studio", context: "Completed design thinking evaluation" },
+                    { name: "Financial Literacy Check", channel: "Business Insights", video: "Data Analytics Mastery", user: "anna.garcia@finance.corp", context: "Passed with 92% accuracy" }
+                ],
+                videoDownloads: [
+                    { video: "UX Design Principles", channel: "Design Academy", user: "mike.chen@design.agency" },
+                    { video: "Advanced React Hooks", channel: "Tech Tutorials", user: "john.smith@webdev.io" },
+                    { video: "Marketing Automation 101", channel: "Marketing Hub", user: "sarah.williams@startup.com" },
+                    { video: "Financial Planning Guide", channel: "Business Insights", user: "emma.davis@biztech.com" }
+                ],
+                comments: [
+                    { video: "Advanced React Hooks", channel: "Tech Tutorials", user: "mike.chen@design.agency", context: "Great explanation of useCallback optimization!" },
+                    { video: "Marketing Automation 101", channel: "Marketing Hub", user: "lisa.brown@marketing.pro", context: "This workflow saved me hours of manual work" },
+                    { video: "Figma Advanced Techniques", channel: "Design Academy", user: "alex.johnson@company.com", context: "The component system tips are incredibly useful" },
+                    { video: "Data Analytics Mastery", channel: "Business Insights", user: "ryan.taylor@techstartup.com", context: "Perfect timing for our Q4 analysis project" }
+                ],
+                resourceDownloads: [
+                    { channel: "Business Insights", video: "Data Analytics Mastery", user: "emma.davis@biztech.com" },
+                    { channel: "Tech Tutorials", video: "Advanced React Hooks", user: "alex.johnson@company.com" },
+                    { channel: "Design Academy", video: "UX Design Principles", user: "david.wilson@creative.studio" },
+                    { channel: "Marketing Hub", video: "Social Media Strategy", user: "sarah.williams@startup.com" }
+                ],
+                reactions: [
+                    { video: "Financial Planning Guide", channel: "Business Insights", user: "anna.garcia@finance.corp" },
+                    { video: "Vue.js 3 Composition API", channel: "Tech Tutorials", user: "ryan.taylor@techstartup.com" },
+                    { video: "Content Marketing Tips", channel: "Marketing Hub", user: "jessica.moore@content.agency" },
+                    { video: "Figma Advanced Techniques", channel: "Design Academy", user: "mike.chen@design.agency" }
+                ]
+            }
+        };
+
+        // Populate tables
+        function populateWatchesTable() {
+            const tbody = document.getElementById('watchesTableBody');
+            tbody.innerHTML = '';
+            
+            mockData.watches.forEach(row => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${row.video}</td>
+                    <td>${row.channel}</td>
+                    <td>${row.watches.toLocaleString()}</td>
+                    <td>${row.watchTime}</td>
+                    <td>${row.viewers.toLocaleString()}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function populateViewersTable() {
+            const tbody = document.getElementById('viewersTableBody');
+            tbody.innerHTML = '';
+            
+            mockData.viewers.forEach(row => {
+                const tr = document.createElement('tr');
+                const viewerType = getViewerType(row.watches);
+                tr.innerHTML = `
+                    <td>
+                        ${row.viewer}
+                        <div class="viewer-type ${viewerType.class}">${viewerType.label}</div>
+                    </td>
+                    <td>${row.video}</td>
+                    <td>${row.channel}</td>
+                    <td>${row.watches}</td>
+                    <td>${row.watchTime}</td>
+                    <td>
+                        <div class="engagement-score">
+                            <div class="score-bar">
+                                <div class="score-fill" style="width: ${row.engagementScore}%"></div>
+                            </div>
+                            <span>${row.engagementScore}%</span>
+                        </div>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function populateEngagementTables() {
+            // Survey Table
+            const surveyTbody = document.getElementById('surveyTableBody');
+            surveyTbody.innerHTML = '';
+            mockData.engagements.surveys.forEach(row => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${row.name}</td>
+                    <td>${row.channel}</td>
+                    <td>${row.video}</td>
+                    <td>${row.user}</td>
+                    <td>${row.context}</td>
+                `;
+                surveyTbody.appendChild(tr);
+            });
+
+            // Q&A Table
+            const qaTbody = document.getElementById('qaTableBody');
+            qaTbody.innerHTML = '';
+            mockData.engagements.qa.forEach(row => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${row.channel}</td>
+                    <td>${row.video}</td>
+                    <td>${row.user}</td>
+                    <td>${row.context}</td>
+                `;
+                qaTbody.appendChild(tr);
+            });
+
+            // Polls Table
+            const pollsTbody = document.getElementById('pollsTableBody');
+            pollsTbody.innerHTML = '';
+            mockData.engagements.polls.forEach(row => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${row.name}</td>
+                    <td>${row.channel}</td>
+                    <td>${row.video}</td>
+                    <td>${row.user}</td>
+                    <td>${row.context}</td>
+                `;
+                pollsTbody.appendChild(tr);
+            });
+
+            // Quizzes Table
+            const quizzesTbody = document.getElementById('quizzesTableBody');
+            quizzesTbody.innerHTML = '';
+            mockData.engagements.quizzes.forEach(row => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${row.name}</td>
+                    <td>${row.channel}</td>
+                    <td>${row.video}</td>
+                    <td>${row.user}</td>
+                    <td>${row.context}</td>
+                `;
+                quizzesTbody.appendChild(tr);
+            });
+
+            // Video Downloads Table
+            const videoDownloadsTbody = document.getElementById('videoDownloadsTableBody');
+            videoDownloadsTbody.innerHTML = '';
+            mockData.engagements.videoDownloads.forEach(row => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${row.video}</td>
+                    <td>${row.channel}</td>
+                    <td>${row.user}</td>
+                `;
+                videoDownloadsTbody.appendChild(tr);
+            });
+
+            // Comments Table
+            const commentsTbody = document.getElementById('commentsTableBody');
+            commentsTbody.innerHTML = '';
+            mockData.engagements.comments.forEach(row => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${row.video}</td>
+                    <td>${row.channel}</td>
+                    <td>${row.user}</td>
+                    <td>${row.context}</td>
+                `;
+                commentsTbody.appendChild(tr);
+            });
+
+            // Resource Downloads Table
+            const resourceDownloadsTbody = document.getElementById('resourceDownloadsTableBody');
+            resourceDownloadsTbody.innerHTML = '';
+            mockData.engagements.resourceDownloads.forEach(row => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${row.channel}</td>
+                    <td>${row.video}</td>
+                    <td>${row.user}</td>
+                `;
+                resourceDownloadsTbody.appendChild(tr);
+            });
+
+            // Reactions Table
+            const reactionsTbody = document.getElementById('reactionsTableBody');
+            reactionsTbody.innerHTML = '';
+            mockData.engagements.reactions.forEach(row => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${row.video}</td>
+                    <td>${row.channel}</td>
+                    <td>${row.user}</td>
+                `;
+                reactionsTbody.appendChild(tr);
+            });
+        }
+
+        function getViewerType(watches) {
+            if (watches >= 10) return { class: 'heavy-viewer', label: 'Heavy' };
+            if (watches >= 5) return { class: 'repeat-viewer', label: 'Repeat' };
+            if (watches >= 2) return { class: 'light-viewer', label: 'Light' };
+            return { class: 'new-viewer', label: 'New' };
+        }
+
+        // Sorting functionality
+        function addSortingToTable(tableId) {
+            const table = document.getElementById(tableId);
+            const headers = table.querySelectorAll('th.sortable');
+            
+            headers.forEach(header => {
+                header.addEventListener('click', () => {
+                    const sortKey = header.dataset.sort;
+                    const currentSort = header.classList.contains('sort-asc') ? 'asc' : 
+                                       header.classList.contains('sort-desc') ? 'desc' : '';
+                    
+                    // Remove sort classes from all headers
+                    headers.forEach(h => h.classList.remove('sort-asc', 'sort-desc'));
+                    
+                    // Add appropriate sort class
+                    if (currentSort === 'asc') {
+                        header.classList.add('sort-desc');
+                    } else {
+                        header.classList.add('sort-asc');
+                    }
+                    
+                    // Sort data would go here in a real implementation
+                    console.log(`Sorting ${tableId} by ${sortKey} in ${header.classList.contains('sort-asc') ? 'ascending' : 'descending'} order`);
+                });
+            });
+        }
+
+        // Filter functionality
+        function setupFilters() {
+            const timeFilter = document.getElementById('timeFilter');
+            const channelFilter = document.getElementById('channelFilter');
+            const sortBy = document.getElementById('sortBy');
+            
+            [timeFilter, channelFilter, sortBy].forEach(filter => {
+                filter.addEventListener('change', () => {
+                    console.log('Applying filters:', {
+                        time: timeFilter.value,
+                        channel: channelFilter.value,
+                        sort: sortBy.value
+                    });
+                    // In a real implementation, this would trigger data refresh
+                });
+            });
+        }
+
+        // Tab functionality
+        function setupTabs() {
+            const tabs = document.querySelectorAll('.tab');
+            const tabContents = document.querySelectorAll('.tab-content');
+            
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    const targetTab = tab.dataset.tab;
+                    
+                    // Remove active class from all tabs and contents
+                    tabs.forEach(t => t.classList.remove('active'));
+                    tabContents.forEach(content => content.classList.remove('active'));
+                    
+                    // Add active class to clicked tab and corresponding content
+                    tab.classList.add('active');
+                    document.getElementById(targetTab).classList.add('active');
+                });
+            });
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            populateWatchesTable();
+            populateViewersTable();
+            populateEngagementTables();
+            
+            addSortingToTable('watchesTable');
+            addSortingToTable('viewersTable');
+            
+            setupFilters();
+            setupTabs();
+        });
+    </script>
 </body>
 </html>
